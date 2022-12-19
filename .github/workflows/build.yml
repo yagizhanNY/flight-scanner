@@ -28,6 +28,3 @@ jobs:
       # install dependencies and build the project
       - run: npm install --registry=https://registry.npmjs.org
       - run: npm run test:cov
-      - name: Upload testing reports
-        run: |
-          bash <(curl -s https://codecov.io/bash)
