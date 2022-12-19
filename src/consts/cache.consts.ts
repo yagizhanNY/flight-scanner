@@ -1,0 +1,1 @@
+export const CACHE_FLIGHT_KEY = "flights";
