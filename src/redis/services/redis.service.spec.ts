@@ -35,12 +35,14 @@ describe('RedisService', () => {
 
   describe('Add', () => {
     it('should add value to the cache', async () => {
+      jest.spyOn(service.client, 'get').mockResolvedValue('OK');
       expect(await service.Add('key', 'value')).toEqual('OK');
     });
   });
 
   describe('Get', () => {
     it('should get value from cache', async () => {
+      jest.spyOn(service.client, 'set').mockResolvedValue('OK');
       expect(await service.Get('key')).toEqual(expect.any(String));
     });
   });

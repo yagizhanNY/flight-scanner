@@ -4,7 +4,7 @@ import Redis, { RedisKey } from 'ioredis';
 
 @Injectable()
 export class RedisService {
-  private readonly client: Redis;
+  client: Redis;
 
   constructor(private configService: ConfigService) {
     const host: string = this.configService.get('REDIS_URL') as string;
