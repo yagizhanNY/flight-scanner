@@ -6,11 +6,11 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 @Module({
   providers: [CacheService],
   imports: [
-    ConfigModule,
+    ConfigModule.forRoot(),
     RedisModule.forRoot({
       config: {
-        host: 'localhost',
-        port: 6379,
+        host: process.env.REDIS_URL,
+        port: Number(process.env.REDIS_PORT),
       },
     }),
   ],
