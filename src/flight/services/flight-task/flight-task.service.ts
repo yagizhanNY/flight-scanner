@@ -41,7 +41,7 @@ export class FlightTaskService {
     }
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async TraceFlights(key: string = 'FLIGHT_SOURCES_FILE_NAME'): Promise<void> {
     const resourcesFolderPath: string = './dist/resources/';
     const fileName = await this.configService.get(key);
