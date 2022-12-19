@@ -54,7 +54,7 @@ FLIGHT_SOURCES_FILE_NAME={{FILE_NAME}}
 - To start the API
 
 ```terminal
-npm start
+npm run start
 ```
 
 ---
