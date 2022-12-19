@@ -4,16 +4,6 @@ This API gets flights from multiple sources and merge them.
 
 ### Before run the API
 
-#### Environment variables
-
-Create .env file or export listed variables before run the app.
-
-```text
-REDIS_URL={{REDIS_URL}}
-REDIS_PORT={{REDIS_PORT}}
-FLIGHT_SOURCES_FILE_NAME={{FILE_NAME}}
-```
-
 #### Redis
 
 Host and port informations of Redis must be provided in `.env` file. Default values are;
@@ -51,6 +41,14 @@ cd flight-scanner
 
 ```terminal
 npm install --legacy-peer-deps
+```
+
+- Create .env file or export listed variables before run the app.
+
+```text
+REDIS_URL={{REDIS_URL}}
+REDIS_PORT={{REDIS_PORT}}
+FLIGHT_SOURCES_FILE_NAME={{FILE_NAME}}
 ```
 
 - To start the API
