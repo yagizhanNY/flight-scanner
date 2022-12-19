@@ -1,15 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FlightTaskService } from './flight-task.service';
 import { HttpService } from '@nestjs/axios';
-import { RedisService } from '../../../redis/services/redis.service';
+import { CacheService } from '../../../cache/services/cache.service';
 import { ConfigService } from '@nestjs/config';
 import { FlightSourceService } from '../flight-source/flight-source.service';
 import { FlightSources } from '../../../models/interfaces/flight-sources.interface';
 import { Flight } from '../../../models/interfaces/flight.interface';
 import { BadRequestException, HttpStatus, Logger } from '@nestjs/common';
 import { BaseFlight } from 'src/models/interfaces/base-flight.interface';
-import { AxiosResponse } from 'axios';
-import { Observable, from, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('FlightCronServiceService', () => {
   let service: FlightTaskService;
@@ -93,7 +92,7 @@ describe('FlightCronServiceService', () => {
     }),
   };
 
-  let mockRedisService = {
+  let mockCacheService = {
     Add: jest.fn(async () => {
       return 'OK';
     }),
@@ -133,7 +132,7 @@ describe('FlightCronServiceService', () => {
       providers: [
         FlightTaskService,
         HttpService,
-        RedisService,
+        CacheService,
         ConfigService,
         FlightSourceService,
         {
@@ -147,8 +146,8 @@ describe('FlightCronServiceService', () => {
     })
       .overrideProvider(HttpService)
       .useValue(mockHttpService)
-      .overrideProvider(RedisService)
-      .useValue(mockRedisService)
+      .overrideProvider(CacheService)
+      .useValue(mockCacheService)
       .overrideProvider(ConfigService)
       .useValue(mockConfigService)
       .overrideProvider(FlightSourceService)

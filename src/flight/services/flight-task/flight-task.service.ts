@@ -11,7 +11,7 @@ import { Flight } from '../../../models/interfaces/flight.interface';
 import { Slice } from '../../../models/interfaces/slice.interface';
 import { BaseFlight } from '../../../models/interfaces/base-flight.interface';
 import { CACHE_FLIGHT_KEY } from '../../../consts/cache.consts';
-import { RedisService } from '../../../redis/services/redis.service';
+import { CacheService } from '../../../cache/services/cache.service';
 import { FlightSourceService } from '../flight-source/flight-source.service';
 import { FlightSources } from '../../../models/interfaces/flight-sources.interface';
 import { ConfigService } from '@nestjs/config';
@@ -20,7 +20,7 @@ import { ConfigService } from '@nestjs/config';
 export class FlightTaskService {
   constructor(
     private httpService: HttpService,
-    private redisService: RedisService,
+    private cacheService: CacheService,
     private flightSourceService: FlightSourceService,
     private configService: ConfigService,
     private logger: Logger,
@@ -41,7 +41,7 @@ export class FlightTaskService {
     }
   }
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_MINUTE)
   async TraceFlights(key: string = 'FLIGHT_SOURCES_FILE_NAME'): Promise<void> {
     const resourcesFolderPath: string = './dist/resources/';
     const fileName = await this.configService.get(key);
@@ -84,7 +84,7 @@ export class FlightTaskService {
       flights: flights,
     };
 
-    return await this.redisService.Add(
+    return await this.cacheService.Add(
       CACHE_FLIGHT_KEY,
       JSON.stringify(baseFlightObject),
     );

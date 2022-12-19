@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FlightService } from './flight.service';
-import { RedisService } from '../../redis/services/redis.service';
+import { CacheService } from '../../cache/services/cache.service';
 import { BaseFlight } from '../../models/interfaces/base-flight.interface';
 import { BadRequestException } from '@nestjs/common';
 
@@ -40,9 +40,9 @@ describe('FlightService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FlightService, RedisService],
+      providers: [FlightService, CacheService],
     })
-      .overrideProvider(RedisService)
+      .overrideProvider(CacheService)
       .useValue(mockRedisService)
       .compile();
 
