@@ -1,0 +1,35 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+      # install dependencies and build the project
+      - run: npm install --registry=https://registry.npmjs.org
+      - run: npm run test:cov
+      - name: Upload testing reports
+        run: |
+          bash <(curl -s https://codecov.io/bash)
+        env:
+          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
